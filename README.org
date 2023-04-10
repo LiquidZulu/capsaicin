@@ -1,0 +1,8 @@
+#+title: Capsaicin
+
+An AI captioning tool.
+
+* Building
+#+begin_src sh
+python setup.py build_ext --inplace
+#+end_src
