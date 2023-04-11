@@ -2,8 +2,6 @@ import 'reflect-metadata';
 import { Container, inject, injectable } from 'inversify';
 const { Command } = require('commander');
 
-import { FLAGS } from './FLAGS';
-
 const C = new Container();
 const program = new Command();
 
@@ -36,17 +34,11 @@ class Application {
     }
 
     public async run(
-        fileToGenerateCaptionsFrom: string,
-        captionsToConvertToPNG: string,
+        filename: string,
         out: string,
-        flags: FLAGS
+        flags: { [key: string]: boolean }
     ) {
-        console.log(
-            await this.GenCaptionRead.read(
-                fileToGenerateCaptionsFrom,
-                'tiny.en'
-            )
-        );
+        console.log(await this.GenCaptionRead.read(filename, 'tiny.en'));
         /*
         if (flags & FLAGS.GEN_CAPTIONS_WHISPER) {
             this.GenCaptionLoad.export(
@@ -100,7 +92,7 @@ const logo = `⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 program
     .name('capsaicin')
     .description('An automatic caption generator, powered by OpenAI Whisper')
-    .version('1.0.0')
+    .version('0.9.0')
     .addHelpText('beforeAll', logo)
     .showHelpAfterError();
 
@@ -118,8 +110,11 @@ program
     .option('-s, --srt', 'Export captinos as .srt file')
     .action((filename, options, command) => {
         if (filename == undefined) {
+            // exits the program
             program.help();
         }
+
+        app.run(filename, './capsaicin', options);
     });
 
 /*
@@ -141,7 +136,7 @@ CLI.option('--blah')
     );
 */
 
-program.parse(process.argv);
+program.parseAsync(process.argv);
 /*
 const { captions, topng, output } = program.opts();
 
