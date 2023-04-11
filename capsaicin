@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
-dirname $0 | xargs printf '%s/dist/index.js' | xargs node
+arguments=""
+
+for i in "$@"; do
+    arguments="$arguments $i"
+done
+
+dirname $0 | xargs printf "%s/dist/index.js" | xargs printf "%s$arguments" | xargs node

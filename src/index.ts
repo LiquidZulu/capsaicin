@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { Container, inject, injectable } from 'inversify';
-import { Command, Argument } from 'commander';
+const { Command } = require('commander');
 
 import { FLAGS } from './FLAGS';
 
 const C = new Container();
-const program = new Command('Capsaicin');
+const program = new Command();
 
 import {
     IGenCaptionRead,
@@ -81,7 +81,7 @@ C.bind(Application).toSelf();
 
 const app = C.get(Application);
 
-console.log(`⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+const logo = `⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡾⠃⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣾⠋⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠻⢿⣷⣄⠀⠀⠀⠀⠀
@@ -95,20 +95,31 @@ console.log(`⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀�
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⣠⣶⡿⠿⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`);
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`;
 
 program
     .name('capsaicin')
     .description('An automatic caption generator, powered by OpenAI Whisper')
-    .version('1.0.0');
+    .version('1.0.0')
+    .addHelpText('beforeAll', logo)
+    .showHelpAfterError();
 
 program
-    .command('caption')
-    .alias('c')
-    .argument('<filename>', 'The .srt or audio file to generate captions from')
-    .action(filename => {
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAA');
-        console.log(filename);
+    .argument('[filename]', 'The .srt or audio file to generate captions from')
+    .option(
+        '-w, --whisper',
+        'Generate captions for [filename] with OpenAI Whisper'
+    )
+    .option(
+        '-c, --convert',
+        'Convert a given captions file to the supplied format'
+    )
+    .option('-p, --png', 'Export captions as PNG images')
+    .option('-s, --srt', 'Export captinos as .srt file')
+    .action((filename, options, command) => {
+        if (filename == undefined) {
+            program.help();
+        }
     });
 
 /*
