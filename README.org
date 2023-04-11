@@ -1,8 +1,11 @@
 #+title: Capsaicin
 
-An AI captioning tool.
+An AI captioning tool written with =inversify.js=.
 
-* Building
-#+begin_src sh
-python setup.py build_ext --inplace
-#+end_src
+* Scripts
+Capsaicin provides the following scripts, which can be launched through =yarn name_of_script=:
++ =run= --- run test suites
++ =ui= --- run test server
++ =dev= --- run development server, which will build the typescript upon save
++ =build= --- compile the typescript to javascript
++ =start= --- launch the compiled javascript
