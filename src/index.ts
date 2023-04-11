@@ -1,62 +1,53 @@
 import 'reflect-metadata';
 import { Container, inject, injectable } from 'inversify';
-import { Command } from 'commander';
+import { Command, Argument } from 'commander';
+
+import { FLAGS } from './FLAGS';
 
 const C = new Container();
-const CLI = new Command();
+const program = new Command('Capsaicin');
 
-CLI.name('capsaicin').description(
-    'An automatic caption generator, powered by OpenAI Whisper'
-);
-
-abstract class IGenCaptionRead {
-    abstract read(file: string, model: string): string;
-}
-
-abstract class IGenCaptionProc {
-    abstract proc(captions: string): string;
-}
-
-abstract class IGenCaptionLoad {
-    abstract export(file: string): void;
-}
-
-abstract class IConvertRead {
-    abstract read(file: string): string;
-}
-
-abstract class IConvertProc {
-    abstract proc(captions: string): string;
-}
-
-abstract class IConvertLoad {
-    abstract export(file: string): void;
-}
+import {
+    IGenCaptionRead,
+    GenCaptionWhisper,
+    IGenCaptionProc,
+    IGenCaptionLoad,
+    IConvertRead,
+    IConvertProc,
+    IConvertLoad,
+} from './services';
 
 @injectable()
 class Application {
     constructor(
-        @inject(IGenCaptionRead) GenCaptionRead: IGenCaptionRead,
-        @inject(IGenCaptionProc) GenCaptionProc: IGenCaptionProc,
+        @inject(IGenCaptionRead) GenCaptionRead: IGenCaptionRead
+        /*@inject(IGenCaptionProc) GenCaptionProc: IGenCaptionProc,
         @inject(IGenCaptionLoad) GenCaptionLoad: IGenCaptionLoad,
         @inject(IConvertRead) ConvertRead: IConvertRead,
         @inject(IConvertProc) ConvertProc: IConvertProc,
-        @inject(IConvertLoad) ConvertLoad: IConvertLoad
+        @inject(IConvertLoad) ConvertLoad: IConvertLoad*/
     ) {
         this.GenCaptionRead = GenCaptionRead;
-        this.GenCaptionProc = GenCaptionProc;
+        /*this.GenCaptionProc = GenCaptionProc;
         this.GenCaptionLoad = GenCaptionLoad;
         this.ConvertRead = ConvertRead;
         this.ConvertProc = ConvertProc;
-        this.ConvertLoad = ConvertLoad;
+        this.ConvertLoad = ConvertLoad;*/
     }
 
-    public run(
+    public async run(
         fileToGenerateCaptionsFrom: string,
         captionsToConvertToPNG: string,
         out: string,
-        flags: number
+        flags: FLAGS
     ) {
+        console.log(
+            await this.GenCaptionRead.read(
+                fileToGenerateCaptionsFrom,
+                'tiny.en'
+            )
+        );
+        /*
         if (flags & FLAGS.GEN_CAPTIONS_WHISPER) {
             this.GenCaptionLoad.export(
                 this.GenCaptionProc.proc(
@@ -74,11 +65,7 @@ class Application {
                     this.ConvertRead.read(captionsToConvertToPNG)
                 )
             );
-        }
-
-        // read
-        // transform
-        // load
+        }*/
     }
 
     private GenCaptionRead: IGenCaptionRead;
@@ -89,22 +76,76 @@ class Application {
     private ConvertLoad: IConvertLoad;
 }
 
+C.bind(IGenCaptionRead).to(GenCaptionWhisper);
 C.bind(Application).toSelf();
 
 const app = C.get(Application);
 
-CLI.option(
-    '-c, --captions',
-    'The path to an audio file to generate captions from.',
-    undefined
-);
-CLI.option(
-    '-p, --topng',
-    'The path to a captions file to generate png images from.',
-    undefined
-);
-CLI.option('-o, --output', 'The path to output files to.', './capsaicin');
+console.log(`⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡾⠃⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣾⠋⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠻⢿⣷⣄⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡾⢛⣿⣿⣶⣄⠙⠿⠀⠀⠀⠀⠀  ▄▄▄▄▄▄▄ ▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄    ▄
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡟⢀⣾⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀ █       █      █       █       █      █   █       █   █  █  █ █
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡿⢀⣾⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀ █       █  ▄   █    ▄  █  ▄▄▄▄▄█  ▄   █   █       █   █   █▄█ █
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⡇⣼⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀ █     ▄▄█ █▄█  █   █▄█ █ █▄▄▄▄▄█ █▄█  █   █     ▄▄█   █       █
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣷⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀ █    █  █      █    ▄▄▄█▄▄▄▄▄  █      █   █    █  █   █  ▄    █
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀ █    █▄▄█  ▄   █   █    ▄▄▄▄▄█ █  ▄   █   █    █▄▄█   █ █ █   █
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ █▄▄▄▄▄▄▄█▄█ █▄▄█▄▄▄█   █▄▄▄▄▄▄▄█▄█ █▄▄█▄▄▄█▄▄▄▄▄▄▄█▄▄▄█▄█  █▄▄█
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⣠⣶⡿⠿⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`);
 
-console.log('Hello world!');
+program
+    .name('capsaicin')
+    .description('An automatic caption generator, powered by OpenAI Whisper')
+    .version('1.0.0');
 
-//CLI.parse();
+program
+    .command('caption')
+    .alias('c')
+    .argument('<filename>', 'The .srt or audio file to generate captions from')
+    .action(filename => {
+        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAA');
+        console.log(filename);
+    });
+
+/*
+CLI.option('--blah')
+    .option(
+        '--captions <filename>',
+        'The path to an audio file to generate captions from.',
+        undefined
+    )
+    .option(
+        '-p, --topng <filename>',
+        'The path to a captions file to generate png images from.',
+        undefined
+    )
+    .option(
+        '-o, --output <directory>',
+        'The path to output files to.',
+        './capsaicin'
+    );
+*/
+
+program.parse(process.argv);
+/*
+const { captions, topng, output } = program.opts();
+
+// TODO make this an interactive dealio
+// neither provided
+if (!captions && !topng) {
+    console.log(captions);
+} else {
+    const [isCaptions, isTopng] = [!!captions, !!topng];
+
+    app.run(
+        isCaptions ? captions : '',
+        isCaptions ? topng : '',
+        output,
+        (FLAGS.GEN_CAPTIONS_WHISPER * Number(isCaptions)) |
+            (FLAGS.CONVERT_PNG * Number(isTopng))
+    );
+}*/

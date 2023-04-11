@@ -1,0 +1,4 @@
+export enum FLAGS {
+    GEN_CAPTIONS_WHISPER = 0b0000_0001,
+    CONVERT_PNG = 0b0000_0010,
+}
