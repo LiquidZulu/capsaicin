@@ -1,30 +1,30 @@
 
 # Table of Contents
 
-1.  [Installation](#org147384f)
-2.  [Usage](#org19cac8f)
-    1.  [Options](#org6b037e3)
-3.  [Development](#org01186bc)
-    1.  [Scripts](#org09ddd6f)
+1.  [Installation](#org717a52f)
+2.  [Usage](#orgec64869)
+    1.  [Options](#orgbb5cabd)
+3.  [Development](#orgf07c2af)
+    1.  [Scripts](#org537e6f1)
 
 An AI captioning tool written with `inversify.js`. Capsaicin is capable of either generating whisper captions for a given audio file or converting an .srt captions file into a series of images.
 
 
-<a id="org147384f"></a>
+<a id="org717a52f"></a>
 
 # Installation
 
-This script requires that you install the [OpenAI Whisper](https://github.com/openai/whisper) cli, and [ImageMagick](https://imagemagick.org/). If you do not wish to use Whisper functionality or vice versa for the image outputs this step can be neglected. You will also need to have [NodeJS](https://nodejs.org/en) and [yarn](https://yarnpkg.com/) installed. Then see [3.1](#org09ddd6f) for instructions on how to build.
+This script requires that you install the [OpenAI Whisper](https://github.com/openai/whisper) cli, and [ImageMagick](https://imagemagick.org/). If you do not wish to use Whisper functionality or vice versa for the image outputs this step can be neglected. You will also need to have [NodeJS](https://nodejs.org/en) and [yarn](https://yarnpkg.com/) installed. Then see [scripts](#org537e6f1) for instructions on how to build.
 
 
-<a id="org19cac8f"></a>
+<a id="orgec64869"></a>
 
 # Usage
 
     capsaicin [options] [filenames...]
 
 
-<a id="org6b037e3"></a>
+<a id="orgbb5cabd"></a>
 
 ## Options
 
@@ -172,12 +172,12 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 </table>
 
 
-<a id="org01186bc"></a>
+<a id="orgf07c2af"></a>
 
 # Development
 
 
-<a id="org09ddd6f"></a>
+<a id="org537e6f1"></a>
 
 ## Scripts
 
