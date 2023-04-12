@@ -110,7 +110,7 @@ ${chili}⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⠿⠋⠀⠀⠀⠀⠀⠀⠀
 program
     .name('capsaicin')
     .description('An automatic caption generator, powered by OpenAI Whisper')
-    .version('0.9.0')
+    .version('0.9.1')
     .addHelpText('beforeAll', logo)
     .addHelpText(
         'after',
