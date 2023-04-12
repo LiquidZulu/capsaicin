@@ -1,93 +1,93 @@
 import 'reflect-metadata';
 import { Container, inject, injectable } from 'inversify';
-const { Command } = require('commander');
+import { Command, Option } from 'commander';
+const path = require('path');
 
 const C = new Container();
 const program = new Command();
 
+import { TERM_COLOUR } from './termcols';
+
 import {
-    IGenCaptionRead,
+    IGenCaption,
     GenCaptionWhisper,
-    IGenCaptionProc,
-    IGenCaptionLoad,
-    IConvertRead,
-    IConvertProc,
-    IConvertLoad,
+    IConvert,
+    ConvertToImage,
 } from './services';
 
 @injectable()
 class Application {
     constructor(
-        @inject(IGenCaptionRead) GenCaptionRead: IGenCaptionRead
-        /*@inject(IGenCaptionProc) GenCaptionProc: IGenCaptionProc,
-        @inject(IGenCaptionLoad) GenCaptionLoad: IGenCaptionLoad,
-        @inject(IConvertRead) ConvertRead: IConvertRead,
-        @inject(IConvertProc) ConvertProc: IConvertProc,
-        @inject(IConvertLoad) ConvertLoad: IConvertLoad*/
+        @inject(IGenCaption) GenCaption: IGenCaption,
+        @inject(IConvert) Convert: IConvert
     ) {
-        this.GenCaptionRead = GenCaptionRead;
-        /*this.GenCaptionProc = GenCaptionProc;
-        this.GenCaptionLoad = GenCaptionLoad;
-        this.ConvertRead = ConvertRead;
-        this.ConvertProc = ConvertProc;
-        this.ConvertLoad = ConvertLoad;*/
+        this.GenCaption = GenCaption;
+        this.Convert = Convert;
     }
 
-    public async run(
-        filename: string,
+    public run(
+        filenames: string[],
         out: string,
-        flags: { [key: string]: boolean }
+        options: { [key: string]: boolean | string }
     ) {
-        console.log(await this.GenCaptionRead.read(filename, 'tiny.en'));
-        /*
-        if (flags & FLAGS.GEN_CAPTIONS_WHISPER) {
-            this.GenCaptionLoad.export(
-                this.GenCaptionProc.proc(
-                    this.GenCaptionRead.read(
-                        fileToGenerateCaptionsFrom,
-                        'the name of the model should go here'
-                    )
-                )
-            );
-        }
+        for (let filename of filenames) {
+            // This is if I want to generate captions from an audio file
+            if (options.whisper) {
+                (async () => {
+                    await this.GenCaption.read(
+                        filename,
+                        options.model as string,
+                        out,
+                        options
+                    );
 
-        if (flags & FLAGS.CONVERT_PNG) {
-            this.ConvertLoad.export(
-                this.ConvertProc.proc(
-                    this.ConvertRead.read(captionsToConvertToPNG)
-                )
-            );
-        }*/
+                    if (options.png) {
+                        this.Convert.convert(
+                            path.resolve(out, filename),
+                            'png'
+                        );
+                    }
+                })();
+            }
+
+            // This is if I want to convert an .srt into .png or whatever
+            else if (options.convert) {
+                this.Convert.convert(path.resolve(filename), 'png');
+            }
+        }
     }
 
-    private GenCaptionRead: IGenCaptionRead;
-    private GenCaptionProc: IGenCaptionProc;
-    private GenCaptionLoad: IGenCaptionLoad;
-    private ConvertRead: IConvertRead;
-    private ConvertProc: IConvertProc;
-    private ConvertLoad: IConvertLoad;
+    private GenCaption: IGenCaption;
+    private Convert: IConvert;
 }
 
-C.bind(IGenCaptionRead).to(GenCaptionWhisper);
+C.bind(IGenCaption).to(GenCaptionWhisper);
+C.bind(IConvert).to(ConvertToImage);
 C.bind(Application).toSelf();
 
 const app = C.get(Application);
 
+const [chili, chilistem, logo_text] = [
+    TERM_COLOUR.FgRed,
+    TERM_COLOUR.FgGreen,
+    TERM_COLOUR.FgGray,
+];
+
 const logo = `⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡾⠃⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${chilistem}⣴⡾⠃⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣾⠋⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠻⢿⣷⣄⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡾⢛⣿⣿⣶⣄⠙⠿⠀⠀⠀⠀⠀  ▄▄▄▄▄▄▄ ▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄    ▄
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡟⢀⣾⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀ █       █      █       █       █      █   █       █   █  █  █ █
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡿⢀⣾⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀ █       █  ▄   █    ▄  █  ▄▄▄▄▄█  ▄   █   █       █   █   █▄█ █
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⡇⣼⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀ █     ▄▄█ █▄█  █   █▄█ █ █▄▄▄▄▄█ █▄█  █   █     ▄▄█   █       █
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣷⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀ █    █  █      █    ▄▄▄█▄▄▄▄▄  █      █   █    █  █   █  ▄    █
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀ █    █▄▄█  ▄   █   █    ▄▄▄▄▄█ █  ▄   █   █    █▄▄█   █ █ █   █
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ █▄▄▄▄▄▄▄█▄█ █▄▄█▄▄▄█   █▄▄▄▄▄▄▄█▄█ █▄▄█▄▄▄█▄▄▄▄▄▄▄█▄▄▄█▄█  █▄▄█
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+${chili}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡾⢛⣿⣿⣶⣄${chilistem}⠙⠿⠀⠀⠀⠀⠀ ${logo_text} ▄▄▄▄▄▄▄ ▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄    ▄
+${chili}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡟⢀⣾⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀ ${logo_text}█       █      █       █       █      █   █       █   █  █  █ █
+${chili}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡿⢀⣾⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀ ${logo_text}█       █  ▄   █    ▄  █  ▄▄▄▄▄█  ▄   █   █       █   █   █▄█ █
+${chili}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⡇⣼⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀ ${logo_text}█     ▄▄█ █▄█  █   █▄█ █ █▄▄▄▄▄█ █▄█  █   █     ▄▄█   █       █
+${chili}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣷⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀ ${logo_text}█    █  █      █    ▄▄▄█▄▄▄▄▄  █      █   █    █  █   █  ▄    █
+${chili}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀ ${logo_text}█    █▄▄█  ▄   █   █    ▄▄▄▄▄█ █  ▄   █   █    █▄▄█   █ █ █   █
+${chili}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ${logo_text}█▄▄▄▄▄▄▄█▄█ █▄▄█▄▄▄█   █▄▄▄▄▄▄▄█▄█ █▄▄█▄▄▄█▄▄▄▄▄▄▄█▄▄▄█▄█  █▄▄█
+${chili}⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⣠⣶⡿⠿⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`;
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀${TERM_COLOUR.Reset}`;
 
 program
     .name('capsaicin')
@@ -97,61 +97,62 @@ program
     .showHelpAfterError();
 
 program
-    .argument('[filename]', 'The .srt or audio file to generate captions from')
+    .argument(
+        '[filenames...]',
+        'The .srt or audio file(s) to generate captions from'
+    )
+    .option(
+        '--outdir <path>',
+        'The directory to output files to',
+        './capsaicin'
+    )
     .option(
         '-w, --whisper',
-        'Generate captions for [filename] with OpenAI Whisper'
+        'Generate captions for [filenames...] with OpenAI Whisper'
     )
     .option(
         '-c, --convert',
-        'Convert a given captions file to the supplied format'
+        'Convert given caption file(s) to the supplied format'
     )
     .option('-p, --png', 'Export captions as PNG images')
-    .option('-s, --srt', 'Export captinos as .srt file')
-    .action((filename, options, command) => {
-        if (filename == undefined) {
+    .option('--noCUDA', 'Disable CUDA support')
+    .option('--im-size', 'The -size input provided to ImageMagick')
+    .option('--im-pointsize', 'The -pointsize input provided to ImageMagick')
+    .option(
+        '--im-gravity',
+        'The -gravity input provided to ImageMagick, use magick -list gravity for options'
+    )
+    .option(
+        '--im-font',
+        'The -font input provided to ImageMagick, use magick -list font for options'
+    )
+    .addOption(
+        new Option('--model <model>')
+            .default('tiny.en')
+            .choices([
+                'tiny.en',
+                'tiny',
+                'base.en',
+                'base',
+                'small.en',
+                'small',
+                'medium.en',
+                'medium',
+                'large',
+            ])
+    )
+    .option(
+        '--model <model>',
+        'The model to use to generate the captions',
+        'tiny.en'
+    )
+    .action((filenames, options) => {
+        if (filenames.length == 0) {
             // exits the program
             program.help();
         }
 
-        app.run(filename, './capsaicin', options);
+        app.run(filenames, options.outdir, options);
     });
 
-/*
-CLI.option('--blah')
-    .option(
-        '--captions <filename>',
-        'The path to an audio file to generate captions from.',
-        undefined
-    )
-    .option(
-        '-p, --topng <filename>',
-        'The path to a captions file to generate png images from.',
-        undefined
-    )
-    .option(
-        '-o, --output <directory>',
-        'The path to output files to.',
-        './capsaicin'
-    );
-*/
-
 program.parseAsync(process.argv);
-/*
-const { captions, topng, output } = program.opts();
-
-// TODO make this an interactive dealio
-// neither provided
-if (!captions && !topng) {
-    console.log(captions);
-} else {
-    const [isCaptions, isTopng] = [!!captions, !!topng];
-
-    app.run(
-        isCaptions ? captions : '',
-        isCaptions ? topng : '',
-        output,
-        (FLAGS.GEN_CAPTIONS_WHISPER * Number(isCaptions)) |
-            (FLAGS.CONVERT_PNG * Number(isTopng))
-    );
-}*/

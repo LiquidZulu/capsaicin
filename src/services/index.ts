@@ -1,13 +1,2 @@
-export {
-    IGenCaptionRead,
-    GenCaptionWhisper,
-    IGenCaptionProc,
-    IGenCaptionLoad,
-} from './IGenCaption';
-
-// prettier-ignore
-export {
-    IConvertRead,
-    IConvertProc,
-    IConvertLoad
-} from './IConvert';
+export { IGenCaption, GenCaptionWhisper } from './IGenCaption';
+export { IConvert, ConvertToImage } from './IConvert';
