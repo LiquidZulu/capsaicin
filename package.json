@@ -1,8 +1,9 @@
 {
     "name": "capsaicin",
     "version": "0.9.0",
-    "main": "index.js",
-    "license": "MIT",
+    "main": "dist/index.js",
+    "license": "Unlicense",
+    "types": "dist/index.d.ts",
     "devDependencies": {
         "@types/node": "^18.15.11",
         "prettier": "^2.8.7",
