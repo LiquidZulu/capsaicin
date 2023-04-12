@@ -1,30 +1,30 @@
 
 # Table of Contents
 
-1.  [Installation](#orge0636d5)
-2.  [Usage](#orge3c78c0)
-    1.  [Options](#org2ab536b)
-3.  [Development](#org596a20d)
-    1.  [Scripts](#org0abb013)
+1.  [Installation](#org66c63e8)
+2.  [Usage](#org175f3e9)
+    1.  [Options](#org860d3c1)
+3.  [Development](#org9bcb6b2)
+    1.  [Scripts](#org921d9de)
 
 An AI captioning tool written with `inversify.js`. Capsaicin is capable of either generating whisper captions for a given audio file or converting an .srt captions file into a series of images.
 
 
-<a id="orge0636d5"></a>
+<a id="org66c63e8"></a>
 
 # Installation
 
 This script requires that you install the [OpenAI Whisper](https://github.com/openai/whisper) cli, and [ImageMagick](https://imagemagick.org/). If you do not wish to use Whisper functionality or vice versa for the image outputs this step can be neglected. You will also need to have [NodeJS](https://nodejs.org/en) installed.
 
 
-<a id="orge3c78c0"></a>
+<a id="org175f3e9"></a>
 
 # Usage
 
     capsaicin [options] [filenames...]
 
 
-<a id="org2ab536b"></a>
+<a id="org860d3c1"></a>
 
 ## Options
 
@@ -142,7 +142,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 <td class="org-left">&#x2013;im-gravity &lt;gravity&gt;</td>
 <td class="org-left">The -gravity input provided to ImageMagick</td>
 <td class="org-left">South</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">magick -list gravity</td>
 </tr>
 
 
@@ -150,7 +150,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 <td class="org-left">&#x2013;im-font &lt;font&gt;</td>
 <td class="org-left">The -font input provided to ImageMagick</td>
 <td class="org-left">Cubano-Normal</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">magick -list gravity</td>
 </tr>
 
 
@@ -158,7 +158,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 <td class="org-left">&#x2013;model &lt;model&gt;</td>
 <td class="org-left">The model for Whisper to use</td>
 <td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">whisper &#x2013;help</td>
 </tr>
 
 
@@ -172,12 +172,12 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 </table>
 
 
-<a id="org596a20d"></a>
+<a id="org9bcb6b2"></a>
 
 # Development
 
 
-<a id="org0abb013"></a>
+<a id="org921d9de"></a>
 
 ## Scripts
 
