@@ -26,7 +26,7 @@ capsaicin [options] [filenames...]
 | --im-size <size>           | The -size input provided to ImageMagick                          | 1920x1080     |                      |
 | --im-pointsize <pointsize> | The -pointsize input provided to ImageMagick                     | 48            |                      |
 | --im-gravity <gravity>     | The -gravity input provided to ImageMagick                       | South         | magick -list gravity |
-| --im-font <font>           | The -font input provided to ImageMagick                          | Cubano-Normal | magick -list gravity |
+| --im-font <font>           | The -font input provided to ImageMagick                          | Cubano-Normal | magick -list font    |
 | --model <model>            | The model for Whisper to use                                     |               | whisper --help       |
 | -h, --help                 | Display helptext                                                 |               |                      |
 
