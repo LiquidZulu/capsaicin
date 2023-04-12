@@ -1,8 +1,37 @@
 #+title: Capsaicin
 
-An AI captioning tool written with =inversify.js=.
+An AI captioning tool written with =inversify.js=. Capsaicin is capable of either generating whisper captions for a given audio file or converting an .srt captions file into a series of images.
 
-* Scripts
+* Installation
+This script requires that you install the [[https://github.com/openai/whisper][OpenAI Whisper]] cli, and [[https://imagemagick.org/][ImageMagick]]. If you do not wish to use Whisper functionality or vice versa for the image outputs this step can be neglected. You will also need to have [[https://nodejs.org/en][NodeJS]] installed.
+
+* Usage
+
+#+begin_src shell
+capsaicin [options] [filenames...]
+#+end_src
+
+** Options
+| Flag                       | Purpose                                                          | Default       | Choices |
+|----------------------------+------------------------------------------------------------------+---------------+---------|
+| -V, --version              | output the version number                                        |               |         |
+| --outdir <path>            | The directory to output files to                                 | ./capsaicin   |         |
+| -w, --whisper              | Generate captions for [filenames...] with OpenAI Whisper         |               |         |
+| -c, --convert              | Convert given caption file(s) to the supplied format             |               |         |
+| -p, --png                  | Export captions as PNG images                                    |               |         |
+| -j, --jpg                  | Export captions as JPEG images                                   |               |         |
+| -g, --gif                  | Export captions as GIF images                                    |               |         |
+| -t, --tiff                 | Export captions as TIFF images                                   |               |         |
+| --noCUDA                   | Disable CUDA support (try this option if you get Whisper errors) |               |         |
+| --im-size <size>           | The -size input provided to ImageMagick                          | 1920x1080     |         |
+| --im-pointsize <pointsize> | The -pointsize input provided to ImageMagick                     | 48            |         |
+| --im-gravity <gravity>     | The -gravity input provided to ImageMagick                       | South         |         |
+| --im-font <font>           | The -font input provided to ImageMagick                          | Cubano-Normal |         |
+| --model <model>            | The model for Whisper to use                                     |               |         |
+| -h, --help                 | Display helptext                                                 |               |         |
+
+* Development
+** Scripts
 Capsaicin provides the following scripts, which can be launched through =yarn name_of_script=:
 + =run= --- run test suites
 + =ui= --- run test server
