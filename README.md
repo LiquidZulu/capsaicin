@@ -1,30 +1,30 @@
 
 # Table of Contents
 
-1.  [Installation](#org4c91ff9)
-2.  [Usage](#org4cb1233)
-    1.  [Options](#org9b03afb)
-3.  [Development](#org27eb878)
-    1.  [Scripts](#orga8ea281)
+1.  [Installation](#org5c267ff)
+2.  [Usage](#org7c2ed85)
+    1.  [Options](#orgd85636e)
+3.  [Development](#orga6df04c)
+    1.  [Scripts](#orgf84d518)
 
 An AI captioning tool written with `inversify.js`. Capsaicin is capable of either generating whisper captions for a given audio file or converting an .srt captions file into a series of images.
 
 
-<a id="org4c91ff9"></a>
+<a id="org5c267ff"></a>
 
 # Installation
 
-This script requires that you install the [OpenAI Whisper](https://github.com/openai/whisper) cli, and [ImageMagick](https://imagemagick.org/). If you do not wish to use Whisper functionality or vice versa for the image outputs this step can be neglected. You will also need to have [NodeJS](https://nodejs.org/en) and [yarn](https://yarnpkg.com/) installed. Then see [scripts](#orga8ea281) for instructions on how to build.
+This script requires that you install the [OpenAI Whisper](https://github.com/openai/whisper) cli, and [ImageMagick](https://imagemagick.org/). If you do not wish to use Whisper functionality or vice versa for the image outputs this step can be neglected. You will also need to have [NodeJS](https://nodejs.org/en) and [yarn](https://yarnpkg.com/) installed. Then see [scripts](#orgf84d518) for instructions on how to build.
 
 
-<a id="org4cb1233"></a>
+<a id="org7c2ed85"></a>
 
 # Usage
 
     capsaicin [options] [filenames...]
 
 
-<a id="org9b03afb"></a>
+<a id="orgd85636e"></a>
 
 ## Options
 
@@ -51,7 +51,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 <tbody>
 <tr>
-<td class="org-left">-V, &#x2013;version</td>
+<td class="org-left"><code>-V, --version</code></td>
 <td class="org-left">output the version number</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
@@ -59,7 +59,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">&#x2013;outdir &lt;path&gt;</td>
+<td class="org-left"><code>--outdir &lt;path&gt;</code></td>
 <td class="org-left">The directory to output files to</td>
 <td class="org-left">./capsaicin</td>
 <td class="org-left">&#xa0;</td>
@@ -67,7 +67,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">-w, &#x2013;whisper</td>
+<td class="org-left"><code>-w, --whisper</code></td>
 <td class="org-left">Generate captions for [filenames&#x2026;] with OpenAI Whisper</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
@@ -75,7 +75,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">-c, &#x2013;convert</td>
+<td class="org-left"><code>-c, --convert</code></td>
 <td class="org-left">Convert given caption file(s) to the supplied format</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
@@ -83,7 +83,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">-p, &#x2013;png</td>
+<td class="org-left"><code>-p, --png</code></td>
 <td class="org-left">Export captions as PNG images</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
@@ -91,7 +91,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">-j, &#x2013;jpg</td>
+<td class="org-left"><code>-j, --jpg</code></td>
 <td class="org-left">Export captions as JPEG images</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
@@ -99,7 +99,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">-g, &#x2013;gif</td>
+<td class="org-left"><code>-g, --gif</code></td>
 <td class="org-left">Export captions as GIF images</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
@@ -107,7 +107,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">-t, &#x2013;tiff</td>
+<td class="org-left"><code>-t, --tiff</code></td>
 <td class="org-left">Export captions as TIFF images</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
@@ -115,7 +115,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">&#x2013;noCUDA</td>
+<td class="org-left"><code>--noCUDA</code></td>
 <td class="org-left">Disable CUDA support (try this option if you get Whisper errors)</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
@@ -123,7 +123,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">&#x2013;im-size &lt;size&gt;</td>
+<td class="org-left"><code>--im-size &lt;size&gt;</code></td>
 <td class="org-left">The -size input provided to ImageMagick</td>
 <td class="org-left">1920x1080</td>
 <td class="org-left">&#xa0;</td>
@@ -131,7 +131,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">&#x2013;im-pointsize &lt;pointsize&gt;</td>
+<td class="org-left"><code>--im-pointsize &lt;pointsize&gt;</code></td>
 <td class="org-left">The -pointsize input provided to ImageMagick</td>
 <td class="org-left">48</td>
 <td class="org-left">&#xa0;</td>
@@ -139,7 +139,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">&#x2013;im-gravity &lt;gravity&gt;</td>
+<td class="org-left"><code>--im-gravity &lt;gravity&gt;</code></td>
 <td class="org-left">The -gravity input provided to ImageMagick</td>
 <td class="org-left">South</td>
 <td class="org-left">magick -list gravity</td>
@@ -147,7 +147,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">&#x2013;im-font &lt;font&gt;</td>
+<td class="org-left"><code>--im-font &lt;font&gt;</code></td>
 <td class="org-left">The -font input provided to ImageMagick</td>
 <td class="org-left">Cubano-Normal</td>
 <td class="org-left">magick -list font</td>
@@ -155,7 +155,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">&#x2013;model &lt;model&gt;</td>
+<td class="org-left"><code>--model &lt;model&gt;</code></td>
 <td class="org-left">The model for Whisper to use</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">whisper &#x2013;help</td>
@@ -163,7 +163,7 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 
 
 <tr>
-<td class="org-left">-h, &#x2013;help</td>
+<td class="org-left"><code>-h, --help</code></td>
 <td class="org-left">Display helptext</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
@@ -172,12 +172,12 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 </table>
 
 
-<a id="org27eb878"></a>
+<a id="orga6df04c"></a>
 
 # Development
 
 
-<a id="orga8ea281"></a>
+<a id="orgf84d518"></a>
 
 ## Scripts
 

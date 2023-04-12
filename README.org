@@ -12,23 +12,23 @@ capsaicin [options] [filenames...]
 #+end_src
 
 ** Options
-| Flag                       | Purpose                                                          | Default       | Choices              |
-|----------------------------+------------------------------------------------------------------+---------------+----------------------|
-| -V, --version              | output the version number                                        |               |                      |
-| --outdir <path>            | The directory to output files to                                 | ./capsaicin   |                      |
-| -w, --whisper              | Generate captions for [filenames...] with OpenAI Whisper         |               |                      |
-| -c, --convert              | Convert given caption file(s) to the supplied format             |               |                      |
-| -p, --png                  | Export captions as PNG images                                    |               |                      |
-| -j, --jpg                  | Export captions as JPEG images                                   |               |                      |
-| -g, --gif                  | Export captions as GIF images                                    |               |                      |
-| -t, --tiff                 | Export captions as TIFF images                                   |               |                      |
-| --noCUDA                   | Disable CUDA support (try this option if you get Whisper errors) |               |                      |
-| --im-size <size>           | The -size input provided to ImageMagick                          | 1920x1080     |                      |
-| --im-pointsize <pointsize> | The -pointsize input provided to ImageMagick                     | 48            |                      |
-| --im-gravity <gravity>     | The -gravity input provided to ImageMagick                       | South         | magick -list gravity |
-| --im-font <font>           | The -font input provided to ImageMagick                          | Cubano-Normal | magick -list font    |
-| --model <model>            | The model for Whisper to use                                     |               | whisper --help       |
-| -h, --help                 | Display helptext                                                 |               |                      |
+| Flag                         | Purpose                                                          | Default       | Choices              |
+|------------------------------+------------------------------------------------------------------+---------------+----------------------|
+| =-V, --version=              | output the version number                                        |               |                      |
+| =--outdir <path>=            | The directory to output files to                                 | ./capsaicin   |                      |
+| =-w, --whisper=              | Generate captions for [filenames...] with OpenAI Whisper         |               |                      |
+| =-c, --convert=              | Convert given caption file(s) to the supplied format             |               |                      |
+| =-p, --png=                  | Export captions as PNG images                                    |               |                      |
+| =-j, --jpg=                  | Export captions as JPEG images                                   |               |                      |
+| =-g, --gif=                  | Export captions as GIF images                                    |               |                      |
+| =-t, --tiff=                 | Export captions as TIFF images                                   |               |                      |
+| =--noCUDA=                   | Disable CUDA support (try this option if you get Whisper errors) |               |                      |
+| =--im-size <size>=           | The -size input provided to ImageMagick                          | 1920x1080     |                      |
+| =--im-pointsize <pointsize>= | The -pointsize input provided to ImageMagick                     | 48            |                      |
+| =--im-gravity <gravity>=     | The -gravity input provided to ImageMagick                       | South         | magick -list gravity |
+| =--im-font <font>=           | The -font input provided to ImageMagick                          | Cubano-Normal | magick -list font    |
+| =--model <model>=            | The model for Whisper to use                                     |               | whisper --help       |
+| =-h, --help=                 | Display helptext                                                 |               |                      |
 
 * Development
 ** Scripts
