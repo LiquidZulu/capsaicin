@@ -5,7 +5,6 @@
     "license": "MIT",
     "devDependencies": {
         "@types/node": "^18.15.11",
-        "nodemon": "^2.0.22",
         "prettier": "^2.8.7",
         "ts-node": "^10.9.1",
         "typescript": "^5.0.4",
@@ -21,8 +20,8 @@
     "scripts": {
         "test": "vitest run",
         "ui": "vitest --ui",
-        "dev": "nodemon ./src/index.ts",
-        "build": "tsc -p . -w",
+        "dev": "tsc -p . -w",
+        "build": "tsc -p .",
         "start": "node ./dist/index.js"
     }
 }
