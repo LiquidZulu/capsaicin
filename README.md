@@ -1,30 +1,30 @@
 
 # Table of Contents
 
-1.  [Installation](#org717a52f)
-2.  [Usage](#orgec64869)
-    1.  [Options](#orgbb5cabd)
-3.  [Development](#orgf07c2af)
-    1.  [Scripts](#org537e6f1)
+1.  [Installation](#org4c91ff9)
+2.  [Usage](#org4cb1233)
+    1.  [Options](#org9b03afb)
+3.  [Development](#org27eb878)
+    1.  [Scripts](#orga8ea281)
 
 An AI captioning tool written with `inversify.js`. Capsaicin is capable of either generating whisper captions for a given audio file or converting an .srt captions file into a series of images.
 
 
-<a id="org717a52f"></a>
+<a id="org4c91ff9"></a>
 
 # Installation
 
-This script requires that you install the [OpenAI Whisper](https://github.com/openai/whisper) cli, and [ImageMagick](https://imagemagick.org/). If you do not wish to use Whisper functionality or vice versa for the image outputs this step can be neglected. You will also need to have [NodeJS](https://nodejs.org/en) and [yarn](https://yarnpkg.com/) installed. Then see [scripts](#org537e6f1) for instructions on how to build.
+This script requires that you install the [OpenAI Whisper](https://github.com/openai/whisper) cli, and [ImageMagick](https://imagemagick.org/). If you do not wish to use Whisper functionality or vice versa for the image outputs this step can be neglected. You will also need to have [NodeJS](https://nodejs.org/en) and [yarn](https://yarnpkg.com/) installed. Then see [scripts](#orga8ea281) for instructions on how to build.
 
 
-<a id="orgec64869"></a>
+<a id="org4cb1233"></a>
 
 # Usage
 
     capsaicin [options] [filenames...]
 
 
-<a id="orgbb5cabd"></a>
+<a id="org9b03afb"></a>
 
 ## Options
 
@@ -172,19 +172,19 @@ This script requires that you install the [OpenAI Whisper](https://github.com/op
 </table>
 
 
-<a id="orgf07c2af"></a>
+<a id="org27eb878"></a>
 
 # Development
 
 
-<a id="org537e6f1"></a>
+<a id="orga8ea281"></a>
 
 ## Scripts
 
 Capsaicin provides the following scripts, which can be launched through `yarn name_of_script`:
 
--   `run` &#x2014; run test suites
--   `ui` &#x2014; run test server
+-   <del>`run` &#x2014; run test suites</del>
+-   <del>`ui` &#x2014; run test server</del>
 -   `dev` &#x2014; run development server, which will build the typescript upon save
 -   `build` &#x2014; compile the typescript to javascript
 -   `start` &#x2014; launch the compiled javascript
