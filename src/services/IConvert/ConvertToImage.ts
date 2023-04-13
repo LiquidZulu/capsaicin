@@ -24,7 +24,7 @@ export class ConvertToImage implements IConvert {
         const inStream = createReadStream(path)
             .pipe(parse())
             .pipe(
-                map((n, i) => {
+                map(n => {
                     if (n.type === 'cue') return n;
                 })
             );
