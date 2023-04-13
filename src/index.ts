@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { Container, inject, injectable } from 'inversify';
 import { Command, Option } from 'commander';
+import { version } from '../package.json';
 const path = require('path');
 
 const C = new Container();
@@ -110,7 +111,7 @@ ${chili}⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⠿⠋⠀⠀⠀⠀⠀⠀⠀
 program
     .name('capsaicin')
     .description('An automatic caption generator, powered by OpenAI Whisper')
-    .version('0.9.1')
+    .version(version)
     .addHelpText('beforeAll', logo)
     .addHelpText(
         'after',
