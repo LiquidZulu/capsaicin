@@ -16,6 +16,7 @@ export class ConvertToImage implements IConvert {
         const inType = extname(path).toLowerCase();
         const dir = dirname(path);
         const filename = basename(path);
+        const outdir = join(dir, `${filename}-images/`);
 
         if (inType !== '.srt')
             throw new Error(`Cannot convert files of type ${inType}`);
@@ -35,7 +36,6 @@ export class ConvertToImage implements IConvert {
         let i = 0;
         for await (let chunk of inStream) {
             (async j => {
-                const outdir = join(dir, `${filename}-images/`);
                 const outfile = join(outdir, `/${j}.${format}`);
                 await mkdir(outdir);
                 const command = `magick -background transparent -fill white -font ${options['im-font']} -size ${options['im-size']} -pointsize ${options['im-pointsize']} -gravity ${options['im-gravity']} label:"${chunk.data.text}\\n" ${outfile}`;
