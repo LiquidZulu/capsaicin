@@ -159,7 +159,7 @@ program
     .option(
         '--im-pointsize <pointsize>',
         'The -pointsize input provided to ImageMagick',
-        '48'
+        '24'
     )
     .option(
         '--im-gravity <gravity>',
