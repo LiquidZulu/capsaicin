@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import { createReadStream } from 'fs';
-import { mkdir } from 'fs/promises';
+import { mkdir, access } from 'fs/promises';
 import { parse, map } from 'subtitle';
 import { IConvert } from './';
 import { basename, dirname, extname, join } from 'path';
@@ -17,6 +17,12 @@ export class ConvertToImage implements IConvert {
         const dir = dirname(path);
         const filename = basename(path);
         const outdir = join(dir, `${filename}-images/`);
+
+        try {
+            await access(outdir);
+        } catch {
+            await mkdir(outdir);
+        }
 
         if (inType !== '.srt')
             throw new Error(`Cannot convert files of type ${inType}`);
@@ -37,10 +43,9 @@ export class ConvertToImage implements IConvert {
         for await (let chunk of inStream) {
             (async j => {
                 const outfile = join(outdir, `/${j}.${format}`);
-                await mkdir(outdir);
-                const command = `magick -background transparent -fill white -font ${options['im-font']} -size ${options['im-size']} -pointsize ${options['im-pointsize']} -gravity ${options['im-gravity']} label:"${chunk.data.text}\\n" ${outfile}`;
+                const command = `magick -background transparent -fill white -font ${options.imFont} -size ${options.imSize} -pointsize ${options.imPointsize} -gravity ${options.imGravity} label:"${chunk.data.text}\\n" ${outfile}`;
 
-                console.log(command); // I think its nice to let people know what their computer is doing
+                console.log(`Writing ${filename}-images/${j}.${format}`);
                 const { stderr, stdout } = await require('exec-sh').promise(
                     command
                 );
