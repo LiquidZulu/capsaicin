@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 import { Container, inject, injectable } from 'inversify';
 import { Command, Option } from 'commander';
-import { version } from '../package.json';
+//import { version } from '../package.json';
+const version = require('../package.json').version;
 const path = require('path');
 
 const C = new Container();

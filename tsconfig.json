@@ -9,6 +9,6 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "declaration": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": false
     }
 }
