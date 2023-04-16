@@ -18,6 +18,7 @@ export class GenCaptionWhisper implements IGenCaption {
 
         if (!!stderr) throw new Error(stderr);
 
+        console.log(`\n\n\n${command}\n--------\n${stdout}`);
         return stdout;
     }
 }
