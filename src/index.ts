@@ -121,7 +121,8 @@ program
 Examples:
   capsaicin -cp ./subtitles.srt             convert subtitles.srt into subtitles.srt-images/n.png
   capsaicin -w ./song-1.mp3 ./song-2.mp3    generate lyrics for an album of songs
-  capsaicin -wcp ./youtube-video.mp3        generate image captions for a youtube video, WARNING: it is recommended that you edit the captions by hand as the AI sometimes makes mistakes`
+  capsaicin -wcp ./youtube-video.mp3        generate image captions for a youtube video, WARNING: it is recommended that you edit the captions by hand as the AI sometimes makes mistakes
+  fd -e .srt | xargs capsaicin -cp          generate images for every .srt file that fd can find (requires you to have fd and be using some sort of reasonable shell)`
     )
     .showHelpAfterError();
 

@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
 import { IGenCaption } from './';
+import { TERM_COLOUR } from '../../termcols';
 
 @injectable()
 export class GenCaptionWhisper implements IGenCaption {
@@ -18,7 +19,9 @@ export class GenCaptionWhisper implements IGenCaption {
 
         if (!!stderr) throw new Error(stderr);
 
-        console.log(`\n\n\n${command}\n--------\n${stdout}`);
+        console.log(
+            `\n\n\n${TERM_COLOUR.BgCyan}${TERM_COLOUR.FgBlack}[FINISHED]${TERM_COLOUR.Reset} ${command}\n\n${stdout}`
+        );
         return stdout;
     }
 }
