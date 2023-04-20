@@ -43,7 +43,16 @@ export class ConvertToImage implements IConvert {
         for await (let chunk of inStream) {
             (async j => {
                 const outfile = join(outdir, `/${j}.${format}`);
-                const command = `magick -background transparent -fill white -font ${options.imFont} -size ${options.imSize} -pointsize ${options.imPointsize} -gravity ${options.imGravity} label:"${chunk.data.text}\\n" ${outfile}`;
+                const command = `magick -background transparent -fill white -font ${
+                    options.imFont
+                } -size ${options.imSize} -pointsize ${
+                    options.imPointsize
+                } -gravity ${
+                    options.imGravity
+                } label:"${chunk.data.text.replaceAll(
+                    `"`,
+                    `\\"`
+                )}\\n" ${outfile}`;
 
                 console.log(`Writing ${filename}-images/${j}.${format}`);
                 const { stderr, stdout } = await require('exec-sh').promise(
